@@ -1,0 +1,138 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Dashboard</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/skin-yellow.min.css">
+</head>
+<body class="hold-transition skin-yellow sidebar-mini">
+    <div class="content">
+            <div class="content-wapper">
+                
+            </div>
+        <div class="row">
+            <form id="searchFilter">
+                <div class="col-sm-12 form-inline">
+                    <div class="form-group">
+                        <label>客户端IP:</label>
+                        <input type="text" class="form-control" name="clientIp" placeholder="客户端IP">
+                    </div>
+                    <div class="form-group">
+                        <label>应用ID:</label>
+                        <input type="text" class="form-control" name="appId" placeholder="应用ID">
+                    </div>
+                    <div class="form-group">
+                        <label>环境ID:</label>
+                        <input type="text" class="form-control" name="envId" placeholder="环境ID">
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-info" name="search" value="查询">
+                        <input type="button" class="btn btn-info" name="searchReset" value="清空">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="content-wapper">
+                <table id="myTable" class="table table-bordered table-hover"></table>
+                <div id="pager">
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+<!-- jQuery 2.2.0 -->
+<script src="../plugins/jQuery/jQuery-2.2.0.min.js"></script>
+
+<!-- Bootstrap 3.3.5 -->
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- Slimscroll -->
+<script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+<!--plugin Extend-->
+<script src="../plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../plugins/adminLTE/js/app.js?v=2"></script>
+
+<!--界面初始化公共类-->
+<script src="../js/domInit.js"></script>
+<!--业务基础服务公共类-->
+<script src="../js/serviceBase.js"></script>
+
+<!--界面处理公共类-->
+<script src="bee_js/servicebll.js"></script>
+<script>
+
+    $(function () {
+
+        var loadOptions = {
+            createModal: $("#modal-Create"),
+            editModal: $("#modal-Update"),
+            windowData: {
+                apiUrls: {
+                    "Get": "/api/BeeReqLog/GetPageList"
+                },
+                pageData: {
+                    tableData: [],
+                    tableIndex: 1,
+                    tableSize: 20
+                }
+
+            },
+            canDelete: false,
+            canEdit: false,
+            canCreate:false,
+            tableColumn: [
+                {
+                    title: "ID",
+                    name: "id"
+                },
+                {
+                    title: "客户端IP",
+                    name: "clientIp"
+                },
+                {
+                    title: "应用ID",
+                    name: "appId"
+                },
+                {
+                    title: "环境ID",
+                    name: "appEnv"
+                },
+                {
+                    title: "第一次请求时间",
+                    name: "firstDate"
+                },
+                {
+                    title: "最后一次请求时间",
+                    name: "lastDate"
+                },
+                {
+                    title: "总请求次数",
+                    name: "reqTimes"
+                },
+                {
+                    title: "配置最新更新时间",
+                    name: "lastConfigDate"
+                }]
+        }
+        servicebll.loadData(loadOptions);
+    });
+
+</script>
+</html>

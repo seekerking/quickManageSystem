@@ -1,0 +1,298 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Dashboard</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/skin-yellow.min.css">
+</head>
+<body class="hold-transition skin-yellow sidebar-mini">
+    <div class="content">
+        <div class="content-wapper">
+        </div>
+        <div class="row">
+            <form id="searchFilter">
+                <div class="col-sm-12 form-inline">
+                    <div class="form-group">
+                        <label>用户账号:</label>
+                        <input type="text" class="form-control" name="userId" placeholder="用户账号">
+                    </div>
+                    <div class="form-group">
+                        <label>用户名称:</label>
+                        <input type="text" class="form-control" name="name" placeholder="用户名称">
+                    </div>
+                    <div class="form-group">
+                        <label>状态:</label>
+                        <select class="form-control" name="status">
+                            <option value="">全部</option>
+                            <option value="0">启用</option>
+                            <option value="1">禁用</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-info" name="search" value="查询">
+                        <input type="button" class="btn btn-info" name="searchReset" value="清空">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="content-wapper">
+                <table id="myTable" class="table table-bordered table-hover"></table>
+                <div id="pager">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--新增Modal-->
+    <div class="modal fade" id="modal-Create" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">新增</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="createForm">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label>用户账号:</label>
+                                <input type="text" class="form-control" name="userId" placeholder="用户账号">
+                            </div>
+                            <div class="form-group">
+                                <label>用户密码:</label>
+                                <input type="password" class="form-control" name="pwd" placeholder="用户密码">
+                            </div>
+                            <div class="form-group">
+                                <label>确认密码:</label>
+                                <input type="password" class="form-control" name="pwdConfirm" placeholder="确认密码">
+                            </div>
+                            <div class="form-group">
+                                <label>用户名称:</label>
+                                <input type="text" class="form-control" name="name" placeholder="用户名称">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--更新Modal-->
+<div class="modal fade" id="modal-Update" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">修改</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="updateForm">
+                    <input type="hidden" name="id" value="">
+                    <div class="form-group">
+                        <label>用户名称:</label>
+                        <input type="text" class="form-control" name="name" placeholder="用户名称">
+                    </div>
+                    <div class="form-group">
+                        <label>用户状态:</label>
+                        <select class="form-control" name="status">
+                            <option value="0">启用</option>
+                            <option value="1">禁用</option>
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--重置密码Modal-->
+<div class="modal fade" id="modal-ResetPwd" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">重置密码</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="resetPwdForm">
+                    <input type="hidden" name="id" value="">
+                    <div class="form-group">
+                        <label>用户账号:</label>
+                        <input type="text" class="form-control" name="userId" placeholder="用户账号">
+                    </div>
+                    <div class="form-group">
+                        <label>原密码:</label>
+                        <input type="password" class="form-control" name="sourcePassword" placeholder="原密码">
+                    </div>
+                    <div class="form-group">
+                        <label>现密码:</label>
+                        <input type="password" class="form-control" name="resetPassword" placeholder="现密码">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- jQuery 2.2.0 -->
+<script src="../plugins/jQuery/jQuery-2.2.0.min.js"></script>
+
+<!-- Bootstrap 3.3.5 -->
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- Slimscroll -->
+<script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+<!--plugin Extend-->
+<script src="../plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../plugins/adminLTE/js/app.js?v=2"></script>
+
+<!--界面初始化公共类-->
+<script src="../js/domInit.js"></script>
+<!--业务基础服务公共类-->
+<script src="../js/serviceBase.js"></script>
+
+<!--界面处理公共类-->
+<script src="bee_js/servicebll.js"></script>
+<script>
+    $(function () {
+        var loadOptions = {
+            createModal: $("#modal-Create"),
+            editModal: $("#modal-Update"),
+            windowData: {
+                apiUrls: {
+                    "Get": "/api/BeeHome/GetPageList",
+                    "Update": "/api/BeeHome/AddOrUpdate",
+                    "Create": "/api/BeeHome/AddOrUpdate",
+                    "Delete": "/api/BeeHome/Delete",
+                    "ResetPwd":"/api/BeeHome/ResetPwd",
+                },
+                pageData: {
+                    tableData: [],
+                    tableIndex: 1,
+                    tableSize: 20
+                }
+
+            },
+            canDelete: true,
+            canEdit: true,
+            canCreate: true,
+            callBack: {
+                ModalValidate: function (form) {
+
+                    if (form.attr("id") == "createForm") {
+                        var pwd1= $("#modal-Create input[name='pwd']").val();
+                        var pwd2 = $("#modal-Create input[name='pwdConfirm']").val();
+                        if (pwd1 != pwd2) {
+                            alert("密码不一致");
+                            return false;
+                        }
+                        return true;
+                    }
+                    if (form.attr("id") == "resetPwdForm") {
+                        var pwd1 = $("#modal-ResetPwd input[name='sourcePassword']").val();
+                        var pwd2 = $("#modal-ResetPwd input[name='resetPassword']").val();
+                        if (pwd1 === "" || pwd2 === "") {
+                            alert("密码不能为空");
+                            return false;
+                        }
+                        if (pwd1 === pwd2) {
+                            alert("重置密码不能和原密码相同");
+                            return false;
+                        }
+                        return true;
+                    }
+
+
+                    return true;
+                },
+                ControlCallBack: function(row,options,callback) {
+                    var resetOperation = $('<button class="btn btn-warning">重置密码</button>');
+                    resetOperation.on("click",
+                            {
+                                callback: options.callBack.ResetPwd,
+                                data: row,
+                                url: options.apiUrls.ResetPwd,
+                                modal: $("#modal-ResetPwd")
+                            },
+                        callback);
+                    return resetOperation;
+                }
+            },
+            tableColumn: [
+                {
+                    title: "ID",
+                    name: "id"
+                },
+                {
+                    title: "用户账号",
+                    name: "userId"
+                },
+                {
+                    title: "用户名称",
+                    name: "name"
+                },
+                {
+                    title: "状态",
+                    name: "status",
+                    valueTemplate: function(value) {
+                        if (value == 0) {
+                            return "启用";
+                        } else if (value == 1) {
+                            return "禁用";
+                        } else {
+                            return "非法";
+                        }
+                    }
+
+                },
+                {
+                    title: "创建时间",
+                    name: "createDate"
+                },
+                {
+                    title: "最后修改时间",
+                    name: "lastUpdate"
+                }]
+        }
+        servicebll.loadData(loadOptions);
+    });
+
+
+</script>
+</html>

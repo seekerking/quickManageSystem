@@ -1,0 +1,292 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Dashboard</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/skin-yellow.min.css">
+</head>
+<body class="hold-transition skin-yellow sidebar-mini">
+    <div class="content">
+        <div class="content-wapper">
+            
+        </div>
+        <div class="row">
+            <form id="searchFilter">
+                <div class="col-sm-12 form-inline">
+                    <div class="form-group">
+                        <label>应用ID:</label>
+                        <input type="text" class="form-control" name="appId" placeholder="应用ID">
+                    </div>
+                    <div class="form-group">
+                        <label>环境ID:</label>
+                        <input type="text" class="form-control" name="envId" placeholder="环境ID">
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-info" name="search" value="查询">
+                        <input type="button" class="btn btn-info" name="searchReset" value="清空">
+                        <input type="button" class="btn btn-danger" name="publish" id="btnPublish" value="发布">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="content-wapper">
+                <table id="myTable" class="table table-bordered table-hover"></table>
+                <div id="pager">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--新增Modal-->
+    <div class="modal fade" id="modal-Create" aria-hidden="true" data-backdrop="static" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">新增</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="createForm">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label>配置ID:</label>
+                                <input type="text" class="form-control" name="configId" placeholder="配置ID">
+                            </div>
+                            <div class="form-group">
+                                <label>配置值:</label>
+                                <input type="text" class="form-control" name="configValue" placeholder="配置值">
+                            </div>
+                            <div class="form-group">
+                                <label>配置描述:</label>
+                                <input type="text" class="form-control" name="configDesc" placeholder="配置描述">
+                            </div>
+                            <div class="form-group">
+                                <label>应用ID:</label>
+                                <select type="text" class="form-control" name="appId"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>环境ID:</label>
+                                <select type="text" class="form-control" name="envId"></select>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-content">
+                        <label class="bg-warning">提示：新增后无法删除和修改键值，请仔细确认！</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--更新Modal-->
+    <div class="modal fade" id="modal-Update" aria-hidden="true" data-backdrop="static" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">修改</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="updateForm">
+                        <input type="hidden" name="id" value="">
+                        <div class="form-group">
+                            <label>配置值:</label>
+                            <input type="text" class="form-control" name="configValue" placeholder="配置值">
+                        </div>
+                        <div class="form-group">
+                            <label>配置描述:</label>
+                            <input type="text" class="form-control" name="configDesc" placeholder="配置描述">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--发布Modal-->
+    <div class="modal fade" id="modal-Publish" aria-hidden="true" data-backdrop="static" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">发布</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="publishForm">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label>应用ID:</label>
+                                <select type="text" class="form-control" name="appId"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>环境ID:</label>
+                                <select type="text" class="form-control" name="envId"></select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">发布</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<!-- jQuery 2.2.0 -->
+<script src="../plugins/jQuery/jQuery-2.2.0.min.js"></script>
+
+<!-- Bootstrap 3.3.5 -->
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- Slimscroll -->
+<script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+<!--plugin Extend-->
+<script src="../plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../plugins/adminLTE/js/app.js?v=2"></script>
+
+<!--界面初始化公共类-->
+<script src="../js/domInit.js"></script>
+<!--业务基础服务公共类-->
+<script src="../js/serviceBase.js"></script>
+
+<!--界面处理公共类-->
+<script src="bee_js/servicebll.js"></script>
+<script>
+
+    function initDom() {
+        $.submitAjaxData("/api/BeeReadOnly/GetEnvSelect2DataList",
+            null,
+            "get",
+            function (data) {
+                servicebll.createSelectList("#modal-Update select[name='envId']", data.data);
+                servicebll.createSelectList("#modal-Create select[name='envId']", data.data);
+                servicebll.createSelectList("#modal-Publish select[name='envId']", data.data);
+            });
+
+        $.submitAjaxData("/api/BeeReadOnly/GetAppSelect2DataList",
+            null,
+            "get",
+            function (data) {
+                servicebll.createSelectList("#modal-Update select[name='appId']", data.data);
+                servicebll.createSelectList("#modal-Create select[name='appId']", data.data);
+                servicebll.createSelectList("#modal-Publish select[name='appId']", data.data);
+            });
+
+        var publishModal = $("#modal-Publish");
+        publishModal.find(":submit").off("click").on("click",
+            function () {
+                var postData = $.getFormJson(publishModal.find("form"));
+                publishModal.modal("hide");
+                $.submitAjaxData("/api/BeeConfig/Publish",
+                    postData,
+                    "POST",
+                    function (data) {
+                        domCommon.postBackNotify = domCommon.notify({ message: "操作成功" });
+                    });
+            });
+
+        $("#btnPublish").on("click",
+            function () {
+                publishModal.modal('show');
+
+            });
+
+
+    }
+
+
+    $(function () {
+
+        initDom();
+
+        var loadOptions = {
+            createModal: $("#modal-Create"),
+            editModal: $("#modal-Update"),
+            windowData: {
+                apiUrls: {
+                    "Get": "/api/BeeConfig/GetPageList",
+                    "Update": "/api/BeeConfig/AddOrUpdate",
+                    "Create": "/api/BeeConfig/AddOrUpdate",
+                    "Delete": "/api/BeeConfig/Delete"
+                },
+                pageData: {
+                    tableData: [],
+                    tableIndex: 1,
+                    tableSize: 20
+                }
+
+            },
+            canDelete: true,
+            canEdit: true,
+            canCreate: true,
+            tableColumn: [
+                {
+                    title: "ID",
+                    name: "id"
+                },
+                {
+                    title: "配置ID",
+                    name: "configId"
+                },
+                {
+                    title: "配置值",
+                    name: "configValue"
+                },
+                {
+                    title: "配置描述",
+                    name: "configDesc"
+                },
+                {
+                    title: "应用Id",
+                    name: "appId"
+                },
+                {
+                    title: "应用名称",
+                    name: "appName"
+                },
+                {
+                    title: "环境Id",
+                    name: "envId"
+                },
+                {
+                    title: "最后修改时间",
+                    name: "lastUpdate"
+                }]
+        }
+        servicebll.loadData(loadOptions);
+    });
+
+</script>
+</html>
